@@ -1,0 +1,201 @@
+# THEA Backend Development Docker Compose Configuration
+# For local development with hot reload and debugging
+
+services:
+  # THEA Backend Service (Development Mode)
+  thea-backend-dev:
+    build:
+      context: .
+      target: development
+      dockerfile: Dockerfile
+    container_name: thea-backend-dev
+    ports:
+      - "3000:3000"
+      - "9229:9229"  # Node.js debugger port
+    environment:
+      # Application Environment
+      - NODE_ENV=development
+      
+      # Database Configuration
+      - DATABASE_URL=mysql://thea_user:thea_password@mysql:3306/thea_db_dev
+      
+      # JWT Configuration
+      - JWT_SECRET=dev-jwt-secret-key-not-for-production
+      - JWT_EXPIRES_IN=24h
+      - JWT_REFRESH_EXPIRES_IN=7d
+      
+      # Redis Configuration
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=
+      - REDIS_DB=1
+      
+      # MinIO Configuration
+      - MINIO_ENDPOINT=minio
+      - MINIO_PORT=9000
+      - MINIO_ACCESS_KEY=dev-minio-user
+      - MINIO_SECRET_KEY=dev-minio-password
+      - MINIO_USE_SSL=false
+      
+      # RabbitMQ Configuration
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=dev-user
+      - RABBITMQ_PASSWORD=dev-password
+      - RABBITMQ_VHOST=/
+      
+      # Development Configuration
+      - PORT=3000
+      - LOG_LEVEL=debug
+      - DEBUG=thea:*
+      
+    volumes:
+      # Mount source code for hot reload
+      - .:/app
+      - /app/node_modules
+      - ./logs:/app/logs
+      - ./uploads:/app/uploads
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - thea-dev-network
+    restart: unless-stopped
+    command: ["npm", "run", "dev"]
+
+  # MySQL Database (Development)
+  mysql:
+    image: mysql:8.0
+    container_name: thea-mysql-dev
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=dev-root-password
+      - MYSQL_DATABASE=thea_db_dev
+      - MYSQL_USER=thea_user
+      - MYSQL_PASSWORD=thea_password
+    volumes:
+      - mysql_dev_data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    networks:
+      - thea-dev-network
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # Redis Cache (Development)
+  redis:
+    image: redis:7-alpine
+    container_name: thea-redis-dev
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_dev_data:/data
+    networks:
+      - thea-dev-network
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+  # MinIO Object Storage (Development)
+  minio:
+    image: minio/minio:latest
+    container_name: thea-minio-dev
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=dev-minio-user
+      - MINIO_ROOT_PASSWORD=dev-minio-password
+    volumes:
+      - minio_dev_data:/data
+    networks:
+      - thea-dev-network
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+      start_period: 30s
+
+  # RabbitMQ Message Broker (Development)
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: thea-rabbitmq-dev
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=dev-user
+      - RABBITMQ_DEFAULT_PASS=dev-password
+    volumes:
+      - rabbitmq_dev_data:/var/lib/rabbitmq
+    networks:
+      - thea-dev-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # PostgreSQL for testing (optional)
+  postgres-test:
+    image: postgres:15-alpine
+    container_name: thea-postgres-test
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=thea_test_db
+      - POSTGRES_USER=test_user
+      - POSTGRES_PASSWORD=test_password
+    volumes:
+      - postgres_test_data:/var/lib/postgresql/data
+    networks:
+      - thea-dev-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test_user -d thea_test_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+# Named volumes for development data
+volumes:
+  mysql_dev_data:
+    driver: local
+  redis_dev_data:
+    driver: local
+  minio_dev_data:
+    driver: local
+  rabbitmq_dev_data:
+    driver: local
+  postgres_test_data:
+    driver: local
+
+# Development network
+networks:
+  thea-dev-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16

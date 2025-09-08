@@ -1,100 +1,188 @@
-version: '3.8'
+# THEA Backend Docker Compose Configuration
+# Production-ready setup with all required services
 
 services:
   # THEA Backend Service
   thea-backend:
     build:
       context: .
-      target: development
+      target: production
+      dockerfile: Dockerfile
+    container_name: thea-backend-app
     ports:
       - "3000:3000"
     environment:
-      - NODE_ENV=development
-      - DATABASE_URL=mysql://root:password@mysql:3306/thea_db
+      # Application Environment
+      - NODE_ENV=production
+      
+      # Database Configuration
+      - DATABASE_URL=mysql://thea_user:thea_password@mysql:3306/thea_db
+      
+      # JWT Configuration
+      - JWT_SECRET=your-super-secret-jwt-key-change-in-production
+      - JWT_EXPIRES_IN=1h
+      - JWT_REFRESH_EXPIRES_IN=7d
+      
+      # Redis Configuration
       - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=
+      - REDIS_DB=0
+      
+      # MinIO Configuration
       - MINIO_ENDPOINT=minio
+      - MINIO_PORT=9000
+      - MINIO_ACCESS_KEY=thea-minio-user
+      - MINIO_SECRET_KEY=thea-minio-password-2024
+      - MINIO_USE_SSL=false
+      
+      # RabbitMQ Configuration
       - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=thea-user
+      - RABBITMQ_PASSWORD=thea-password
+      - RABBITMQ_VHOST=/
+      
+      # Application Configuration
+      - PORT=3000
+      - LOG_LEVEL=info
+      
     volumes:
-      - .:/app
-      - /app/node_modules
       - ./logs:/app/logs
       - ./uploads:/app/uploads
+      - thea_uploads:/app/uploads/temp
     depends_on:
-      - mysql
-      - redis
-      - minio
-      - rabbitmq
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     networks:
       - thea-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "healthcheck.js"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   # MySQL Database
   mysql:
     image: mysql:8.0
+    container_name: thea-mysql-db
     ports:
-      - "3306:3306"
+      - "3307:3306"  # Changed to avoid conflict with existing MySQL
     environment:
-      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=root-password-2024
       - MYSQL_DATABASE=thea_db
       - MYSQL_USER=thea_user
       - MYSQL_PASSWORD=thea_password
+      - MYSQL_CHARACTER_SET_SERVER=utf8mb4
+      - MYSQL_COLLATION_SERVER=utf8mb4_unicode_ci
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./prisma/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+      - ./mysql/conf:/etc/mysql/conf.d
     networks:
       - thea-network
     restart: unless-stopped
-    command: --default-authentication-plugin=mysql_native_password
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   # Redis Cache
   redis:
     image: redis:7-alpine
+    container_name: thea-redis-cache
     ports:
       - "6379:6379"
     volumes:
       - redis_data:/data
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
     networks:
       - thea-network
     restart: unless-stopped
-    command: redis-server --appendonly yes
+    command: redis-server /usr/local/etc/redis/redis.conf
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
 
   # MinIO Object Storage
   minio:
     image: minio/minio:latest
+    container_name: thea-minio-storage
     ports:
       - "9000:9000"
       - "9001:9001"
     environment:
-      - MINIO_ROOT_USER=minioadmin
-      - MINIO_ROOT_PASSWORD=minioadmin
+      - MINIO_ROOT_USER=thea-minio-user
+      - MINIO_ROOT_PASSWORD=thea-minio-password-2024
+      - MINIO_BROWSER_REDIRECT_URL=http://localhost:9001
     volumes:
       - minio_data:/data
     networks:
       - thea-network
     restart: unless-stopped
     command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+      start_period: 30s
 
   # RabbitMQ Message Broker
   rabbitmq:
     image: rabbitmq:3-management-alpine
+    container_name: thea-rabbitmq-broker
     ports:
       - "5672:5672"
       - "15672:15672"
     environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_DEFAULT_USER=thea-user
+      - RABBITMQ_DEFAULT_PASS=thea-password
+      - RABBITMQ_DEFAULT_VHOST=/
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+      - ./rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
     networks:
       - thea-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
+# Named volumes for persistent data
 volumes:
   mysql_data:
+    driver: local
   redis_data:
+    driver: local
   minio_data:
+    driver: local
   rabbitmq_data:
+    driver: local
+  thea_uploads:
+    driver: local
 
+# Network configuration
 networks:
   thea-network:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
