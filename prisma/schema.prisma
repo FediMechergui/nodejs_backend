@@ -1,0 +1,301 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Enums
+enum UserRole {
+  ADMIN
+  ACCOUNTANT
+  VERIFIER
+}
+
+enum InvoiceStatus {
+  PENDING
+  PAID
+  OVERDUE
+}
+
+enum InvoiceType {
+  SALE
+  PURCHASE
+}
+
+enum VerificationStatus {
+  AUTO_APPROVED
+  MANUAL_VERIFICATION_NEEDED
+  VERIFIED
+  REJECTED
+}
+
+enum ValuationMethod {
+  FIFO
+  LIFO
+  WEIGHTED_AVERAGE
+  SPECIFIC_IDENTIFICATION
+}
+
+enum LogEventType {
+  USER_LOGIN
+  USER_LOGOUT
+  INVOICE_CREATED
+  INVOICE_UPDATED
+  INVOICE_DELETED
+  USER_CREATED
+  USER_UPDATED
+  USER_DELETED
+  ENTERPRISE_CREATED
+  ENTERPRISE_UPDATED
+  CLIENT_CREATED
+  CLIENT_UPDATED
+  SUPPLIER_CREATED
+  SUPPLIER_UPDATED
+  PROJECT_CREATED
+  PROJECT_UPDATED
+  STOCK_UPDATED
+  AUDIT_LOG_ACCESSED
+}
+
+// Business Entities
+model Enterprise {
+  id             String   @id @default(uuid())
+  name           String   @db.VarChar(255)
+  taxId          String   @unique @db.VarChar(100)
+  country        String   @db.VarChar(100)
+  currency       String   @db.VarChar(3)
+  address        String   @db.Text
+  phone          String   @db.VarChar(20)
+  city           String   @db.VarChar(100)
+  postalCode     String   @db.VarChar(20)
+  invitationCode String   @unique @db.VarChar(100)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relationships
+  users    User[]
+  clients  Client[]
+  suppliers Supplier[]
+  projects Project[]
+  invoices Invoice[]
+  companyStocks CompanyStock[]
+  auditLogs AuditLog[]
+  metrics Metrics[]
+
+  @@map("enterprises")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  username     String   @unique @db.VarChar(100)
+  email        String   @unique @db.VarChar(255)
+  passwordHash String   @db.VarChar(255)
+  role         UserRole @default(ACCOUNTANT)
+  phone        String?  @db.VarChar(20)
+  address      String?  @db.Text
+  specialty    String?  @db.VarChar(255)
+  encryptedPii String?  @db.Text
+  mfaEnabled   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relationships
+  enterpriseId String
+  enterprise   Enterprise @relation(fields: [enterpriseId], references: [id], onDelete: Cascade)
+  
+  createdInvoices Invoice[] @relation("InvoiceCreator")
+  processedInvoices Invoice[] @relation("InvoiceProcessor")
+  verifiedInvoices Invoice[] @relation("InvoiceVerifier")
+  
+  createdSubAccounts User[] @relation("SubAccountCreator")
+  createdBy User? @relation("SubAccountCreator", fields: [createdById], references: [id])
+  createdById String?
+  
+  auditLogs AuditLog[]
+
+  @@map("users")
+}
+
+model Client {
+  id        String   @id @default(uuid())
+  name      String   @db.VarChar(255)
+  email     String?  @db.VarChar(255)
+  phone     String?  @db.VarChar(20)
+  address   String?  @db.Text
+  specialty String?  @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  enterpriseId String
+  enterprise   Enterprise @relation(fields: [enterpriseId], references: [id], onDelete: Cascade)
+  
+  invoices Invoice[]
+
+  @@map("clients")
+}
+
+model Supplier {
+  id           String   @id @default(uuid())
+  name         String   @db.VarChar(255)
+  email        String?  @db.VarChar(255)
+  phone        String?  @db.VarChar(20)
+  address      String?  @db.Text
+  income       Decimal  @default(0) @db.Decimal(15, 2)
+  outcome      Decimal  @default(0) @db.Decimal(15, 2)
+  specialty    String?  @db.VarChar(255)
+  biAnnotations String? @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relationships
+  enterpriseId String
+  enterprise   Enterprise @relation(fields: [enterpriseId], references: [id], onDelete: Cascade)
+  
+  invoices Invoice[]
+
+  @@map("suppliers")
+}
+
+model Project {
+  id            String   @id @default(uuid())
+  name          String   @db.VarChar(255)
+  description   String?  @db.Text
+  biAnnotations String?  @db.Text
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relationships
+  enterpriseId String
+  enterprise   Enterprise @relation(fields: [enterpriseId], references: [id], onDelete: Cascade)
+  
+  invoices Invoice[]
+  metrics Metrics[]
+
+  @@map("projects")
+}
+
+model Invoice {
+  id                String            @id @default(uuid())
+  invoiceDate       DateTime
+  dueDate           DateTime
+  totalAmount       Decimal           @db.Decimal(15, 2)
+  currency          String            @db.VarChar(3)
+  status            InvoiceStatus     @default(PENDING)
+  type              InvoiceType
+  scanUrl           String?           @db.Text
+  extractedData     Json?
+  verificationStatus VerificationStatus @default(MANUAL_VERIFICATION_NEEDED)
+  digitalSignature  String?           @db.VarChar(255)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  // Relationships
+  enterpriseId String
+  enterprise   Enterprise @relation(fields: [enterpriseId], references: [id], onDelete: Cascade)
+  
+  clientId String?
+  client   Client? @relation(fields: [clientId], references: [id])
+  
+  supplierId String?
+  supplier   Supplier? @relation(fields: [supplierId], references: [id])
+  
+  projectId String?
+  project   Project? @relation(fields: [projectId], references: [id])
+  
+  createdById String
+  createdBy   User @relation("InvoiceCreator", fields: [createdById], references: [id])
+  
+  processedById String?
+  processedBy   User? @relation("InvoiceProcessor", fields: [processedById], references: [id])
+  
+  verifiedById String?
+  verifiedBy   User? @relation("InvoiceVerifier", fields: [verifiedById], references: [id])
+  
+  invoiceLayouts InvoiceLayout[]
+  auditLogs AuditLog[]
+
+  @@map("invoices")
+}
+
+model InvoiceLayout {
+  id              String   @id @default(uuid())
+  layoutData      Json
+  fieldCoordinates Json
+  templateHash    String   @unique @db.VarChar(255)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relationships
+  invoiceId String
+  invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@map("invoice_layouts")
+}
+
+model CompanyStock {
+  id                String           @id @default(uuid())
+  itemName          String           @db.VarChar(255)
+  quantity          Int              @default(0)
+  unitPrice         Decimal          @db.Decimal(15, 2)
+  totalValue        Decimal          @db.Decimal(15, 2)
+  reorderThreshold  Int              @default(10)
+  valuationMethod   ValuationMethod @default(FIFO)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  // Relationships
+  enterpriseId String
+  enterprise   Enterprise @relation(fields: [enterpriseId], references: [id], onDelete: Cascade)
+  
+  metrics Metrics[]
+
+  @@map("company_stocks")
+}
+
+model Metrics {
+  id               String   @id @default(uuid())
+  financialSummary Json
+  chartConfigs     Json
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Relationships
+  enterpriseId String
+  enterprise   Enterprise @relation(fields: [enterpriseId], references: [id], onDelete: Cascade)
+  
+  projectId String?
+  project   Project? @relation(fields: [projectId], references: [id])
+  
+  companyStockId String?
+  companyStock   CompanyStock? @relation(fields: [companyStockId], references: [id])
+
+  @@map("metrics")
+}
+
+// Infrastructure Components
+model AuditLog {
+  id           String      @id @default(uuid())
+  logEventType LogEventType
+  versionHash  String      @db.VarChar(255)
+  immutable    Boolean     @default(true)
+  createdAt    DateTime    @default(now())
+
+  // Relationships
+  enterpriseId String
+  enterprise   Enterprise @relation(fields: [enterpriseId], references: [id], onDelete: Cascade)
+  
+  userId String?
+  user   User? @relation(fields: [userId], references: [id])
+  
+  invoiceId String?
+  invoice   Invoice? @relation(fields: [invoiceId], references: [id])
+
+  @@map("audit_logs")
+}

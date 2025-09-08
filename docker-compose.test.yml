@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  # Test instance of THEA Backend
+  thea-backend-test:
+    build:
+      context: .
+      target: development
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=test
+      - DATABASE_URL=mysql://root:testpass@mysql-test:3306/thea_db_test
+      - REDIS_HOST=redis-test
+      - MINIO_ENDPOINT=minio-test
+      - RABBITMQ_HOST=rabbitmq-test
+      - JWT_SECRET=test-jwt-secret-for-pipeline
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - mysql-test
+      - redis-test
+      - minio-test
+      - rabbitmq-test
+    networks:
+      - thea-test-network
+    healthcheck:
+      test: ["CMD", "node", "healthcheck.js"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+  # Test MySQL Database
+  mysql-test:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=testpass
+      - MYSQL_DATABASE=thea_db_test
+      - MYSQL_USER=thea_test_user
+      - MYSQL_PASSWORD=thea_test_pass
+    ports:
+      - "3307:3306"
+    tmpfs:
+      - /var/lib/mysql:noexec,nosuid,size=512m
+    networks:
+      - thea-test-network
+    command: --default-authentication-plugin=mysql_native_password
+
+  # Test Redis Cache
+  redis-test:
+    image: redis:7-alpine
+    ports:
+      - "6380:6379"
+    networks:
+      - thea-test-network
+    command: redis-server --appendonly no --save ""
+
+  # Test MinIO Object Storage
+  minio-test:
+    image: minio/minio:latest
+    ports:
+      - "9001:9000"
+      - "9002:9001"
+    environment:
+      - MINIO_ROOT_USER=testadmin
+      - MINIO_ROOT_PASSWORD=testadmin
+    networks:
+      - thea-test-network
+    command: server /data --console-address ":9001"
+    tmpfs:
+      - /data:noexec,nosuid,size=256m
+
+  # Test RabbitMQ Message Broker
+  rabbitmq-test:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5673:5672"
+      - "15673:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=testguest
+      - RABBITMQ_DEFAULT_PASS=testguest
+    networks:
+      - thea-test-network
+    tmpfs:
+      - /var/lib/rabbitmq:noexec,nosuid,size=128m
+
+networks:
+  thea-test-network:
+    driver: bridge
