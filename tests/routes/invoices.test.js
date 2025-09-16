@@ -9,7 +9,8 @@ const rateLimit = require('express-rate-limit');
 // Set test environment variables BEFORE any imports
 process.env.NODE_ENV = 'test';
 process.env.JWT_SECRET = 'test-jwt-secret-key-for-testing-only';
-process.env.DATABASE_URL = 'mysql://root@localhost:3306/thea_db_test';
+process.env.DATABASE_URL =
+  process.env.DATABASE_URL || "mysql://root@localhost:3307/thea_db_test";
 process.env.MINIO_BUCKET_NAME = 'thea-invoices';
 process.env.UPLOAD_TEMP_DIR = 'uploads/temp';
 process.env.MAX_FILE_SIZE = '26214400'; // 25MB
@@ -82,7 +83,8 @@ describe('Invoice Routes', () => {
     // Ensure clean environment
     process.env.JWT_SECRET = 'test-jwt-secret-key-for-testing-only';
     process.env.NODE_ENV = 'test';
-    process.env.DATABASE_URL = 'mysql://root@localhost:3306/thea_db_test';
+    process.env.DATABASE_URL =
+      process.env.DATABASE_URL || "mysql://root@localhost:3307/thea_db_test";
     
     // Use existing test data from setup.js
     testEnterprise = await global.testUtils.createTestEnterprise();

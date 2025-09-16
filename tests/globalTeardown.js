@@ -5,7 +5,8 @@ module.exports = async () => {
   console.log('🧹 Cleaning up test environment...');
   
   // Use the same test database URL that was set in globalSetup
-  const testDbUrl = process.env.DATABASE_URL || 'mysql://root@localhost:3306/thea_db_test';
+  const testDbUrl =
+    process.env.DATABASE_URL || "mysql://root@localhost:3307/thea_db_test";
   
   const prisma = new PrismaClient({
     datasources: {

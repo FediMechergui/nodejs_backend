@@ -4,7 +4,8 @@ jest.unmock('../../src/config/database');
 
 // Set test environment variables
 process.env.NODE_ENV = 'test';
-process.env.DATABASE_URL = 'mysql://root@localhost:3306/thea_db_test';
+process.env.DATABASE_URL =
+  process.env.DATABASE_URL || "mysql://root@localhost:3307/thea_db_test";
 
 // Mock PrismaClient
 const mockPrismaClient = {
@@ -56,7 +57,9 @@ describe('Database Configuration', () => {
   });
 
   it('should have correct database URL', () => {
-    expect(process.env.DATABASE_URL).toBe('mysql://root@localhost:3306/thea_db_test');
+    expect(process.env.DATABASE_URL).toBe(
+      process.env.DATABASE_URL || "mysql://root@localhost:3307/thea_db_test"
+    );
   });
 
   it('should have PrismaClient instance', () => {

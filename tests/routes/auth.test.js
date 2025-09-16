@@ -6,7 +6,8 @@ const { PrismaClient } = require('@prisma/client');
 // Set test environment variables BEFORE any imports
 process.env.NODE_ENV = 'test';
 process.env.JWT_SECRET = 'test-jwt-secret-key-for-testing-only';
-process.env.DATABASE_URL = 'mysql://root@localhost:3306/thea_db_test';
+process.env.DATABASE_URL =
+  process.env.DATABASE_URL || "mysql://root@localhost:3307/thea_db_test";
 
 // Force clear any cached modules that might interfere
 jest.resetModules();
@@ -83,7 +84,8 @@ describe('Authentication Routes', () => {
     // Ensure clean environment - force reset all environment variables
     process.env.JWT_SECRET = 'test-jwt-secret-key-for-testing-only';
     process.env.NODE_ENV = 'test';
-    process.env.DATABASE_URL = 'mysql://root@localhost:3306/thea_db_test';
+    process.env.DATABASE_URL =
+      process.env.DATABASE_URL || "mysql://root@localhost:3307/thea_db_test";
     
     // Force clear any cached modules that might interfere
     jest.resetModules();

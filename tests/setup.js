@@ -1,18 +1,10 @@
 // Test setup file - runs before each test file
 
-// Set environment variables FIRST, before any other imports
+// Load test environment variables FIRST
+require('dotenv').config({ path: '.env.test' });
+
+// Ensure we're in test mode
 process.env.NODE_ENV = 'test';
-process.env.PORT = '3001';
-process.env.DATABASE_URL = 'mysql://root@localhost:3306/thea_db_test';
-process.env.JWT_SECRET = 'test-jwt-secret-key-for-testing-only';
-process.env.JWT_EXPIRES_IN = '1h';
-process.env.JWT_REFRESH_EXPIRES_IN = '7d';
-process.env.REDIS_URL = 'redis://localhost:6379';
-process.env.MINIO_ENDPOINT = 'localhost';
-process.env.MINIO_PORT = '9000';
-process.env.MINIO_ACCESS_KEY = 'test-access-key';
-process.env.MINIO_SECRET_KEY = 'test-secret-key';
-process.env.RABBITMQ_URL = 'amqp://localhost:5672';
 
 const { PrismaClient } = require('@prisma/client');
 
@@ -85,7 +77,7 @@ jest.mock('../src/config/database', () => {
   const testPrisma = new PrismaClient({
     datasources: {
       db: {
-        url: process.env.DATABASE_URL || 'mysql://root@localhost:3306/thea_db_test'
+        url: process.env.DATABASE_URL || 'mysql://root@localhost:3307/thea_db_test'
       }
     }
   });
