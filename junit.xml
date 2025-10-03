@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="226" failures="0" errors="0" time="8.539">
+  <testsuite name="Authentication Middleware" errors="0" failures="0" skipped="0" timestamp="2025-09-21T17:49:47" time="0.88" tests="16">
+    <testcase classname="Authentication Middleware authenticateToken should authenticate valid JWT token" name="Authentication Middleware authenticateToken should authenticate valid JWT token" time="0.028">
+    </testcase>
+    <testcase classname="Authentication Middleware authenticateToken should reject request without authorization header" name="Authentication Middleware authenticateToken should reject request without authorization header" time="0.001">
+    </testcase>
+    <testcase classname="Authentication Middleware authenticateToken should reject request with invalid token format" name="Authentication Middleware authenticateToken should reject request with invalid token format" time="0.001">
+    </testcase>
+    <testcase classname="Authentication Middleware authenticateToken should reject request with expired token" name="Authentication Middleware authenticateToken should reject request with expired token" time="0.002">
+    </testcase>
+    <testcase classname="Authentication Middleware authenticateToken should reject request with invalid token signature" name="Authentication Middleware authenticateToken should reject request with invalid token signature" time="0.001">
+    </testcase>
+    <testcase classname="Authentication Middleware requireRole should allow access for user with required role" name="Authentication Middleware requireRole should allow access for user with required role" time="0">
+    </testcase>
+    <testcase classname="Authentication Middleware requireRole should deny access for user with different role" name="Authentication Middleware requireRole should deny access for user with different role" time="0">
+    </testcase>
+    <testcase classname="Authentication Middleware requireRole should deny access for user with lower role" name="Authentication Middleware requireRole should deny access for user with lower role" time="0">
+    </testcase>
+    <testcase classname="Authentication Middleware requireRole should deny access for user without role" name="Authentication Middleware requireRole should deny access for user without role" time="0.002">
+    </testcase>
+    <testcase classname="Authentication Middleware requireEnterpriseAccess should allow access to enterprise resource" name="Authentication Middleware requireEnterpriseAccess should allow access to enterprise resource" time="0.001">
+    </testcase>
+    <testcase classname="Authentication Middleware requireEnterpriseAccess should allow access when enterpriseId is in body" name="Authentication Middleware requireEnterpriseAccess should allow access when enterpriseId is in body" time="0.001">
+    </testcase>
+    <testcase classname="Authentication Middleware requireEnterpriseAccess should deny access to different enterprise resource" name="Authentication Middleware requireEnterpriseAccess should deny access to different enterprise resource" time="0">
+    </testcase>
+    <testcase classname="Authentication Middleware requireEnterpriseAccess should allow access when no enterprise context found" name="Authentication Middleware requireEnterpriseAccess should allow access when no enterprise context found" time="0">
+    </testcase>
+    <testcase classname="Authentication Middleware optionalAuth should set user when valid token provided" name="Authentication Middleware optionalAuth should set user when valid token provided" time="0.004">
+    </testcase>
+    <testcase classname="Authentication Middleware optionalAuth should continue without user when no token provided" name="Authentication Middleware optionalAuth should continue without user when no token provided" time="0.001">
+    </testcase>
+    <testcase classname="Authentication Middleware optionalAuth should continue without user when invalid token provided" name="Authentication Middleware optionalAuth should continue without user when invalid token provided" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Authentication Routes" errors="0" failures="0" skipped="0" timestamp="2025-09-21T17:49:48" time="3.604" tests="19">
+    <testcase classname="Authentication Routes POST /auth/register should register a new user successfully" name="Authentication Routes POST /auth/register should register a new user successfully" time="0.335">
+    </testcase>
+    <testcase classname="Authentication Routes POST /auth/register should reject registration with existing username" name="Authentication Routes POST /auth/register should reject registration with existing username" time="0.01">
+    </testcase>
+    <testcase classname="Authentication Routes POST /auth/register should reject registration with existing email" name="Authentication Routes POST /auth/register should reject registration with existing email" time="0.006">
+    </testcase>
+    <testcase classname="Authentication Routes POST /auth/register should reject registration with invalid enterprise ID" name="Authentication Routes POST /auth/register should reject registration with invalid enterprise ID" time="0.008">
+    </testcase>
+    <testcase classname="Authentication Routes POST /auth/register should reject registration with missing required fields" name="Authentication Routes POST /auth/register should reject registration with missing required fields" time="0.005">
+    </testcase>
+    <testcase classname="Authentication Routes POST /auth/login should login user with valid credentials" name="Authentication Routes POST /auth/login should login user with valid credentials" time="0.298">
+    </testcase>
+    <testcase classname="Authentication Routes POST /auth/login should reject login with invalid username" name="Authentication Routes POST /auth/login should reject login with invalid username" time="0.011">
+    </testcase>
+    <testcase classname="Authentication Routes POST /auth/login should reject login with invalid password" name="Authentication Routes POST /auth/login should reject login with invalid password" time="0.402">
+    </testcase>
+    <testcase classname="Authentication Routes POST /auth/login should reject login with missing credentials" name="Authentication Routes POST /auth/login should reject login with missing credentials" time="0.007">
+    </testcase>
+    <testcase classname="Authentication Routes POST /auth/refresh should refresh access token with valid refresh token" name="Authentication Routes POST /auth/refresh should refresh access token with valid refresh token" time="0.295">
+    </testcase>
+    <testcase classname="Authentication Routes POST /auth/refresh should reject refresh with invalid refresh token" name="Authentication Routes POST /auth/refresh should reject refresh with invalid refresh token" time="0.004">
+    </testcase>
+    <testcase classname="Authentication Routes POST /auth/refresh should reject refresh with missing refresh token" name="Authentication Routes POST /auth/refresh should reject refresh with missing refresh token" time="0.004">
+    </testcase>
+    <testcase classname="Authentication Routes POST /auth/logout should logout user successfully" name="Authentication Routes POST /auth/logout should logout user successfully" time="0.028">
+    </testcase>
+    <testcase classname="Authentication Routes POST /auth/logout should reject logout without authentication" name="Authentication Routes POST /auth/logout should reject logout without authentication" time="0.003">
+    </testcase>
+    <testcase classname="Authentication Routes GET /auth/me should return current user information" name="Authentication Routes GET /auth/me should return current user information" time="0.011">
+    </testcase>
+    <testcase classname="Authentication Routes GET /auth/me should reject request without authentication" name="Authentication Routes GET /auth/me should reject request without authentication" time="0.003">
+    </testcase>
+    <testcase classname="Authentication Routes POST /auth/change-password should change password successfully" name="Authentication Routes POST /auth/change-password should change password successfully" time="0.538">
+    </testcase>
+    <testcase classname="Authentication Routes POST /auth/change-password should reject password change with wrong current password" name="Authentication Routes POST /auth/change-password should reject password change with wrong current password" time="0.263">
+    </testcase>
+    <testcase classname="Authentication Routes POST /auth/change-password should reject password change without authentication" name="Authentication Routes POST /auth/change-password should reject password change without authentication" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="Database Configuration" errors="0" failures="0" skipped="0" timestamp="2025-09-21T17:49:52" time="0.076" tests="10">
+    <testcase classname="Database Configuration should export prisma client" name="Database Configuration should export prisma client" time="0.006">
+    </testcase>
+    <testcase classname="Database Configuration should have correct database URL" name="Database Configuration should have correct database URL" time="0.001">
+    </testcase>
+    <testcase classname="Database Configuration should have PrismaClient instance" name="Database Configuration should have PrismaClient instance" time="0.001">
+    </testcase>
+    <testcase classname="Database Configuration should handle database connection" name="Database Configuration should handle database connection" time="0.001">
+    </testcase>
+    <testcase classname="Database Configuration should have user model methods" name="Database Configuration should have user model methods" time="0">
+    </testcase>
+    <testcase classname="Database Configuration should have invoice model methods" name="Database Configuration should have invoice model methods" time="0">
+    </testcase>
+    <testcase classname="Database Configuration should handle environment variables" name="Database Configuration should handle environment variables" time="0.001">
+    </testcase>
+    <testcase classname="Database Configuration should have Prisma client with correct configuration" name="Database Configuration should have Prisma client with correct configuration" time="0">
+    </testcase>
+    <testcase classname="Database Configuration should test database connection (mocked in setup)" name="Database Configuration should test database connection (mocked in setup)" time="0">
+    </testcase>
+    <testcase classname="Database Configuration should initialize database successfully (mocked in setup)" name="Database Configuration should initialize database successfully (mocked in setup)" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="Logger Configuration" errors="0" failures="0" skipped="0" timestamp="2025-09-21T17:49:52" time="0.074" tests="10">
+    <testcase classname="Logger Configuration should export logger instance" name="Logger Configuration should export logger instance" time="0.001">
+    </testcase>
+    <testcase classname="Logger Configuration should create winston logger" name="Logger Configuration should create winston logger" time="0">
+    </testcase>
+    <testcase classname="Logger Configuration should use correct log level" name="Logger Configuration should use correct log level" time="0">
+    </testcase>
+    <testcase classname="Logger Configuration should handle different log levels" name="Logger Configuration should handle different log levels" time="0">
+    </testcase>
+    <testcase classname="Logger Configuration should handle environment variables" name="Logger Configuration should handle environment variables" time="0.001">
+    </testcase>
+    <testcase classname="Logger Configuration should have winston format methods" name="Logger Configuration should have winston format methods" time="0">
+    </testcase>
+    <testcase classname="Logger Configuration should have winston transport methods" name="Logger Configuration should have winston transport methods" time="0">
+    </testcase>
+    <testcase classname="Logger Configuration should create logger with correct configuration" name="Logger Configuration should create logger with correct configuration" time="0.001">
+    </testcase>
+    <testcase classname="Logger Configuration should handle different log levels" name="Logger Configuration should handle different log levels" time="0.001">
+    </testcase>
+    <testcase classname="Logger Configuration should handle structured logging" name="Logger Configuration should handle structured logging" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Error Handler Middleware" errors="0" failures="0" skipped="0" timestamp="2025-09-21T17:49:52" time="0.101" tests="21">
+    <testcase classname="Error Handler Middleware Validation Errors should handle validation errors with 400 status" name="Error Handler Middleware Validation Errors should handle validation errors with 400 status" time="0.009">
+    </testcase>
+    <testcase classname="Error Handler Middleware Validation Errors should handle Joi validation errors" name="Error Handler Middleware Validation Errors should handle Joi validation errors" time="0.001">
+    </testcase>
+    <testcase classname="Error Handler Middleware Authentication Errors should handle JWT errors with 401 status" name="Error Handler Middleware Authentication Errors should handle JWT errors with 401 status" time="0.002">
+    </testcase>
+    <testcase classname="Error Handler Middleware Authentication Errors should handle JWT expired errors with 401 status" name="Error Handler Middleware Authentication Errors should handle JWT expired errors with 401 status" time="0.001">
+    </testcase>
+    <testcase classname="Error Handler Middleware Authentication Errors should handle unauthorized errors with 401 status" name="Error Handler Middleware Authentication Errors should handle unauthorized errors with 401 status" time="0">
+    </testcase>
+    <testcase classname="Error Handler Middleware Database Errors should handle duplicate key errors with 409 status" name="Error Handler Middleware Database Errors should handle duplicate key errors with 409 status" time="0">
+    </testcase>
+    <testcase classname="Error Handler Middleware Database Errors should handle foreign key constraint errors with 500 status" name="Error Handler Middleware Database Errors should handle foreign key constraint errors with 500 status" time="0">
+    </testcase>
+    <testcase classname="Error Handler Middleware Database Errors should handle Prisma errors with 500 status" name="Error Handler Middleware Database Errors should handle Prisma errors with 500 status" time="0">
+    </testcase>
+    <testcase classname="Error Handler Middleware File Upload Errors should handle file size limit errors with 500 status" name="Error Handler Middleware File Upload Errors should handle file size limit errors with 500 status" time="0">
+    </testcase>
+    <testcase classname="Error Handler Middleware File Upload Errors should handle unsupported file type errors with 500 status" name="Error Handler Middleware File Upload Errors should handle unsupported file type errors with 500 status" time="0">
+    </testcase>
+    <testcase classname="Error Handler Middleware Rate Limiting Errors should handle rate limit exceeded errors with 429 status" name="Error Handler Middleware Rate Limiting Errors should handle rate limit exceeded errors with 429 status" time="0">
+    </testcase>
+    <testcase classname="Error Handler Middleware Generic Errors should handle generic errors with 500 status" name="Error Handler Middleware Generic Errors should handle generic errors with 500 status" time="0">
+    </testcase>
+    <testcase classname="Error Handler Middleware Generic Errors should handle errors with custom status codes" name="Error Handler Middleware Generic Errors should handle errors with custom status codes" time="0">
+    </testcase>
+    <testcase classname="Error Handler Middleware Generic Errors should handle errors with custom error codes" name="Error Handler Middleware Generic Errors should handle errors with custom error codes" time="0.003">
+    </testcase>
+    <testcase classname="Error Handler Middleware Error Logging should log error details for debugging" name="Error Handler Middleware Error Logging should log error details for debugging" time="0.002">
+    </testcase>
+    <testcase classname="Error Handler Middleware Error Logging should handle errors without stack trace" name="Error Handler Middleware Error Logging should handle errors without stack trace" time="0.001">
+    </testcase>
+    <testcase classname="Error Handler Middleware Response Format should always return consistent error response format" name="Error Handler Middleware Response Format should always return consistent error response format" time="0.001">
+    </testcase>
+    <testcase classname="Error Handler Middleware Response Format should include additional error details when available" name="Error Handler Middleware Response Format should include additional error details when available" time="0.001">
+    </testcase>
+    <testcase classname="Error Handler Middleware Edge Cases should handle errors without message property" name="Error Handler Middleware Edge Cases should handle errors without message property" time="0.001">
+    </testcase>
+    <testcase classname="Error Handler Middleware Edge Cases should handle null errors gracefully" name="Error Handler Middleware Edge Cases should handle null errors gracefully" time="0.003">
+    </testcase>
+    <testcase classname="Error Handler Middleware Edge Cases should handle undefined errors gracefully" name="Error Handler Middleware Edge Cases should handle undefined errors gracefully" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="Not Found Handler Middleware" errors="0" failures="0" skipped="0" timestamp="2025-09-21T17:49:52" time="0.201" tests="11">
+    <testcase classname="Not Found Handler Middleware should return 404 for non-existent route" name="Not Found Handler Middleware should return 404 for non-existent route" time="0.015">
+    </testcase>
+    <testcase classname="Not Found Handler Middleware should return 404 for POST to non-existent route" name="Not Found Handler Middleware should return 404 for POST to non-existent route" time="0.004">
+    </testcase>
+    <testcase classname="Not Found Handler Middleware should return 404 for PUT to non-existent route" name="Not Found Handler Middleware should return 404 for PUT to non-existent route" time="0.003">
+    </testcase>
+    <testcase classname="Not Found Handler Middleware should return 404 for DELETE to non-existent route" name="Not Found Handler Middleware should return 404 for DELETE to non-existent route" time="0.004">
+    </testcase>
+    <testcase classname="Not Found Handler Middleware should return 404 for PATCH to non-existent route" name="Not Found Handler Middleware should return 404 for PATCH to non-existent route" time="0.004">
+    </testcase>
+    <testcase classname="Not Found Handler Middleware should include available routes in response" name="Not Found Handler Middleware should include available routes in response" time="0.004">
+    </testcase>
+    <testcase classname="Not Found Handler Middleware should include timestamp in response" name="Not Found Handler Middleware should include timestamp in response" time="0.003">
+    </testcase>
+    <testcase classname="Not Found Handler Middleware should not interfere with existing routes" name="Not Found Handler Middleware should not interfere with existing routes" time="0.005">
+    </testcase>
+    <testcase classname="Not Found Handler Middleware should handle nested non-existent routes" name="Not Found Handler Middleware should handle nested non-existent routes" time="0.004">
+    </testcase>
+    <testcase classname="Not Found Handler Middleware should handle routes with query parameters" name="Not Found Handler Middleware should handle routes with query parameters" time="0.003">
+    </testcase>
+    <testcase classname="Not Found Handler Middleware should handle routes with hash fragments" name="Not Found Handler Middleware should handle routes with hash fragments" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Request Logger Middleware" errors="0" failures="0" skipped="0" timestamp="2025-09-21T17:49:52" time="0.29" tests="22">
+    <testcase classname="Request Logger Middleware Request ID Generation should generate unique request ID" name="Request Logger Middleware Request ID Generation should generate unique request ID" time="0.019">
+    </testcase>
+    <testcase classname="Request Logger Middleware Request ID Generation should add request ID to response headers" name="Request Logger Middleware Request ID Generation should add request ID to response headers" time="0.005">
+    </testcase>
+    <testcase classname="Request Logger Middleware Request Logging should log incoming GET request" name="Request Logger Middleware Request Logging should log incoming GET request" time="0.002">
+    </testcase>
+    <testcase classname="Request Logger Middleware Request Logging should log incoming POST request" name="Request Logger Middleware Request Logging should log incoming POST request" time="0.007">
+    </testcase>
+    <testcase classname="Request Logger Middleware Request Logging should log request with IP address" name="Request Logger Middleware Request Logging should log request with IP address" time="0.005">
+    </testcase>
+    <testcase classname="Request Logger Middleware Request Logging should log request with User-Agent" name="Request Logger Middleware Request Logging should log request with User-Agent" time="0.003">
+    </testcase>
+    <testcase classname="Request Logger Middleware Request Body Logging should log request body for POST requests" name="Request Logger Middleware Request Body Logging should log request body for POST requests" time="0.003">
+    </testcase>
+    <testcase classname="Request Logger Middleware Request Body Logging should not log request body for GET requests" name="Request Logger Middleware Request Body Logging should not log request body for GET requests" time="0.003">
+    </testcase>
+    <testcase classname="Request Logger Middleware Request Body Logging should not log request body when body is empty" name="Request Logger Middleware Request Body Logging should not log request body when body is empty" time="0.006">
+    </testcase>
+    <testcase classname="Request Logger Middleware Response Logging should log successful response" name="Request Logger Middleware Response Logging should log successful response" time="0.004">
+    </testcase>
+    <testcase classname="Request Logger Middleware Response Logging should log error response" name="Request Logger Middleware Response Logging should log error response" time="0.003">
+    </testcase>
+    <testcase classname="Request Logger Middleware Response Logging should log server error response" name="Request Logger Middleware Response Logging should log server error response" time="0.005">
+    </testcase>
+    <testcase classname="Request Logger Middleware Request Body Sanitization should sanitize password fields" name="Request Logger Middleware Request Body Sanitization should sanitize password fields" time="0.004">
+    </testcase>
+    <testcase classname="Request Logger Middleware Request Body Sanitization should sanitize passwordHash fields" name="Request Logger Middleware Request Body Sanitization should sanitize passwordHash fields" time="0.004">
+    </testcase>
+    <testcase classname="Request Logger Middleware Request Body Sanitization should sanitize token fields" name="Request Logger Middleware Request Body Sanitization should sanitize token fields" time="0.003">
+    </testcase>
+    <testcase classname="Request Logger Middleware Request Body Sanitization should sanitize secret fields" name="Request Logger Middleware Request Body Sanitization should sanitize secret fields" time="0.009">
+    </testcase>
+    <testcase classname="Request Logger Middleware Request Body Sanitization should sanitize apiKey fields" name="Request Logger Middleware Request Body Sanitization should sanitize apiKey fields" time="0.004">
+    </testcase>
+    <testcase classname="Request Logger Middleware Request Body Sanitization should sanitize multiple sensitive fields" name="Request Logger Middleware Request Body Sanitization should sanitize multiple sensitive fields" time="0.003">
+    </testcase>
+    <testcase classname="Request Logger Middleware Request Body Sanitization should handle non-object body" name="Request Logger Middleware Request Body Sanitization should handle non-object body" time="0.001">
+    </testcase>
+    <testcase classname="Request Logger Middleware Duration Calculation should calculate request duration" name="Request Logger Middleware Duration Calculation should calculate request duration" time="0.022">
+    </testcase>
+    <testcase classname="Request Logger Middleware Middleware Integration should call next() to continue middleware chain" name="Request Logger Middleware Middleware Integration should call next() to continue middleware chain" time="0.004">
+    </testcase>
+    <testcase classname="Request Logger Middleware Middleware Integration should work with multiple middleware" name="Request Logger Middleware Middleware Integration should work with multiple middleware" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="Clients Routes" errors="0" failures="0" skipped="0" timestamp="2025-09-21T17:49:52" time="0.249" tests="1">
+    <testcase classname="Clients Routes should return placeholder message for GET /" name="Clients Routes should return placeholder message for GET /" time="0.009">
+    </testcase>
+  </testsuite>
+  <testsuite name="Enterprise Routes" errors="0" failures="0" skipped="0" timestamp="2025-09-21T17:49:53" time="0.16" tests="7">
+    <testcase classname="Enterprise Routes GET /api/enterprises should return placeholder message for enterprises route" name="Enterprise Routes GET /api/enterprises should return placeholder message for enterprises route" time="0.01">
+    </testcase>
+    <testcase classname="Enterprise Routes GET /api/enterprises should handle multiple requests to enterprises route" name="Enterprise Routes GET /api/enterprises should handle multiple requests to enterprises route" time="0.006">
+    </testcase>
+    <testcase classname="Enterprise Routes GET /api/enterprises should return JSON response with correct content type" name="Enterprise Routes GET /api/enterprises should return JSON response with correct content type" time="0.005">
+    </testcase>
+    <testcase classname="Enterprise Routes Future Implementation Tests (Placeholder) should be ready for GET /api/enterprises/:id implementation" name="Enterprise Routes Future Implementation Tests (Placeholder) should be ready for GET /api/enterprises/:id implementation" time="0">
+    </testcase>
+    <testcase classname="Enterprise Routes Future Implementation Tests (Placeholder) should be ready for POST /api/enterprises implementation" name="Enterprise Routes Future Implementation Tests (Placeholder) should be ready for POST /api/enterprises implementation" time="0.001">
+    </testcase>
+    <testcase classname="Enterprise Routes Future Implementation Tests (Placeholder) should be ready for PUT /api/enterprises/:id implementation" name="Enterprise Routes Future Implementation Tests (Placeholder) should be ready for PUT /api/enterprises/:id implementation" time="0">
+    </testcase>
+    <testcase classname="Enterprise Routes Future Implementation Tests (Placeholder) should be ready for DELETE /api/enterprises/:id implementation" name="Enterprise Routes Future Implementation Tests (Placeholder) should be ready for DELETE /api/enterprises/:id implementation" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="Invoice Routes" errors="0" failures="0" skipped="0" timestamp="2025-09-21T17:49:53" time="1.211" tests="36">
+    <testcase classname="Invoice Routes POST /invoices should create a new sale invoice successfully" name="Invoice Routes POST /invoices should create a new sale invoice successfully" time="0.033">
+    </testcase>
+    <testcase classname="Invoice Routes POST /invoices should create a new purchase invoice successfully" name="Invoice Routes POST /invoices should create a new purchase invoice successfully" time="0.023">
+    </testcase>
+    <testcase classname="Invoice Routes POST /invoices should reject invoice creation without file" name="Invoice Routes POST /invoices should reject invoice creation without file" time="0.011">
+    </testcase>
+    <testcase classname="Invoice Routes POST /invoices should reject sale invoice without client ID" name="Invoice Routes POST /invoices should reject sale invoice without client ID" time="0.016">
+    </testcase>
+    <testcase classname="Invoice Routes POST /invoices should reject purchase invoice without supplier ID" name="Invoice Routes POST /invoices should reject purchase invoice without supplier ID" time="0.016">
+    </testcase>
+    <testcase classname="Invoice Routes POST /invoices should reject invoice with invalid client ID" name="Invoice Routes POST /invoices should reject invoice with invalid client ID" time="0.024">
+    </testcase>
+    <testcase classname="Invoice Routes POST /invoices should reject invoice with invalid supplier ID" name="Invoice Routes POST /invoices should reject invoice with invalid supplier ID" time="0.02">
+    </testcase>
+    <testcase classname="Invoice Routes POST /invoices should reject invoice with validation errors" name="Invoice Routes POST /invoices should reject invoice with validation errors" time="0.017">
+    </testcase>
+    <testcase classname="Invoice Routes POST /invoices should reject invoice creation without authentication" name="Invoice Routes POST /invoices should reject invoice creation without authentication" time="0.004">
+    </testcase>
+    <testcase classname="Invoice Routes GET /invoices should get all invoices successfully" name="Invoice Routes GET /invoices should get all invoices successfully" time="0.017">
+    </testcase>
+    <testcase classname="Invoice Routes GET /invoices should get invoices with pagination" name="Invoice Routes GET /invoices should get invoices with pagination" time="0.016">
+    </testcase>
+    <testcase classname="Invoice Routes GET /invoices should get invoices with status filter" name="Invoice Routes GET /invoices should get invoices with status filter" time="0.013">
+    </testcase>
+    <testcase classname="Invoice Routes GET /invoices should get invoices with type filter" name="Invoice Routes GET /invoices should get invoices with type filter" time="0.015">
+    </testcase>
+    <testcase classname="Invoice Routes GET /invoices should get invoices with date range filter" name="Invoice Routes GET /invoices should get invoices with date range filter" time="0.014">
+    </testcase>
+    <testcase classname="Invoice Routes GET /invoices should get invoices with search filter" name="Invoice Routes GET /invoices should get invoices with search filter" time="0.041">
+    </testcase>
+    <testcase classname="Invoice Routes GET /invoices should reject request without authentication" name="Invoice Routes GET /invoices should reject request without authentication" time="0.006">
+    </testcase>
+    <testcase classname="Invoice Routes GET /invoices/:id should get invoice by ID successfully" name="Invoice Routes GET /invoices/:id should get invoice by ID successfully" time="0.015">
+    </testcase>
+    <testcase classname="Invoice Routes GET /invoices/:id should return 404 for non-existent invoice" name="Invoice Routes GET /invoices/:id should return 404 for non-existent invoice" time="0.009">
+    </testcase>
+    <testcase classname="Invoice Routes GET /invoices/:id should reject request without authentication" name="Invoice Routes GET /invoices/:id should reject request without authentication" time="0.007">
+    </testcase>
+    <testcase classname="Invoice Routes PUT /invoices/:id should update invoice successfully" name="Invoice Routes PUT /invoices/:id should update invoice successfully" time="0.015">
+    </testcase>
+    <testcase classname="Invoice Routes PUT /invoices/:id should return 404 for non-existent invoice" name="Invoice Routes PUT /invoices/:id should return 404 for non-existent invoice" time="0.007">
+    </testcase>
+    <testcase classname="Invoice Routes PUT /invoices/:id should reject update with validation errors" name="Invoice Routes PUT /invoices/:id should reject update with validation errors" time="0.009">
+    </testcase>
+    <testcase classname="Invoice Routes PUT /invoices/:id should reject request without authentication" name="Invoice Routes PUT /invoices/:id should reject request without authentication" time="0.004">
+    </testcase>
+    <testcase classname="Invoice Routes DELETE /invoices/:id should delete invoice successfully" name="Invoice Routes DELETE /invoices/:id should delete invoice successfully" time="0.016">
+    </testcase>
+    <testcase classname="Invoice Routes DELETE /invoices/:id should return 404 for non-existent invoice" name="Invoice Routes DELETE /invoices/:id should return 404 for non-existent invoice" time="0.014">
+    </testcase>
+    <testcase classname="Invoice Routes DELETE /invoices/:id should reject request without authentication" name="Invoice Routes DELETE /invoices/:id should reject request without authentication" time="0.004">
+    </testcase>
+    <testcase classname="Invoice Routes DELETE /invoices/:id should reject request without admin role" name="Invoice Routes DELETE /invoices/:id should reject request without admin role" time="0.012">
+    </testcase>
+    <testcase classname="Invoice Routes POST /invoices/:id/verify should verify invoice successfully" name="Invoice Routes POST /invoices/:id/verify should verify invoice successfully" time="0.017">
+    </testcase>
+    <testcase classname="Invoice Routes POST /invoices/:id/verify should reject invoice verification" name="Invoice Routes POST /invoices/:id/verify should reject invoice verification" time="0.014">
+    </testcase>
+    <testcase classname="Invoice Routes POST /invoices/:id/verify should return 404 for non-existent invoice" name="Invoice Routes POST /invoices/:id/verify should return 404 for non-existent invoice" time="0.007">
+    </testcase>
+    <testcase classname="Invoice Routes POST /invoices/:id/verify should reject verification with validation errors" name="Invoice Routes POST /invoices/:id/verify should reject verification with validation errors" time="0.01">
+    </testcase>
+    <testcase classname="Invoice Routes POST /invoices/:id/verify should reject request without authentication" name="Invoice Routes POST /invoices/:id/verify should reject request without authentication" time="0.003">
+    </testcase>
+    <testcase classname="Invoice Routes GET /invoices/:id/download should get download URL successfully" name="Invoice Routes GET /invoices/:id/download should get download URL successfully" time="0.014">
+    </testcase>
+    <testcase classname="Invoice Routes GET /invoices/:id/download should return 404 for non-existent invoice" name="Invoice Routes GET /invoices/:id/download should return 404 for non-existent invoice" time="0.013">
+    </testcase>
+    <testcase classname="Invoice Routes GET /invoices/:id/download should return 404 for invoice without file" name="Invoice Routes GET /invoices/:id/download should return 404 for invoice without file" time="0.01">
+    </testcase>
+    <testcase classname="Invoice Routes GET /invoices/:id/download should reject request without authentication" name="Invoice Routes GET /invoices/:id/download should reject request without authentication" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="Metrics Routes" errors="0" failures="0" skipped="0" timestamp="2025-09-21T17:49:54" time="0.166" tests="1">
+    <testcase classname="Metrics Routes should return placeholder message for GET /" name="Metrics Routes should return placeholder message for GET /" time="0.008">
+    </testcase>
+  </testsuite>
+  <testsuite name="Projects Routes" errors="0" failures="0" skipped="0" timestamp="2025-09-21T17:49:54" time="0.153" tests="1">
+    <testcase classname="Projects Routes should return placeholder message for GET /" name="Projects Routes should return placeholder message for GET /" time="0.009">
+    </testcase>
+  </testsuite>
+  <testsuite name="Stocks Routes" errors="0" failures="0" skipped="0" timestamp="2025-09-21T17:49:54" time="0.137" tests="1">
+    <testcase classname="Stocks Routes should return placeholder message for GET /" name="Stocks Routes should return placeholder message for GET /" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="Suppliers Routes" errors="0" failures="0" skipped="0" timestamp="2025-09-21T17:49:55" time="0.144" tests="1">
+    <testcase classname="Suppliers Routes should return placeholder message for GET /" name="Suppliers Routes should return placeholder message for GET /" time="0.008">
+    </testcase>
+  </testsuite>
+  <testsuite name="Users Routes" errors="0" failures="0" skipped="0" timestamp="2025-09-21T17:49:55" time="0.16" tests="1">
+    <testcase classname="Users Routes should return placeholder message for GET /" name="Users Routes should return placeholder message for GET /" time="0.011">
+    </testcase>
+  </testsuite>
+  <testsuite name="Server Configuration" errors="0" failures="0" skipped="0" timestamp="2025-09-21T17:49:55" time="0.312" tests="18">
+    <testcase classname="Server Configuration Health Check Endpoint should return health status" name="Server Configuration Health Check Endpoint should return health status" time="0.006">
+    </testcase>
+    <testcase classname="Server Configuration Health Check Endpoint should include valid timestamp" name="Server Configuration Health Check Endpoint should include valid timestamp" time="0.004">
+    </testcase>
+    <testcase classname="Server Configuration Health Check Endpoint should include valid uptime" name="Server Configuration Health Check Endpoint should include valid uptime" time="0.004">
+    </testcase>
+    <testcase classname="Server Configuration CORS Configuration should allow requests from any origin in test environment" name="Server Configuration CORS Configuration should allow requests from any origin in test environment" time="0.002">
+    </testcase>
+    <testcase classname="Server Configuration CORS Configuration should include CORS headers" name="Server Configuration CORS Configuration should include CORS headers" time="0.003">
+    </testcase>
+    <testcase classname="Server Configuration Rate Limiting should apply rate limiting to API routes" name="Server Configuration Rate Limiting should apply rate limiting to API routes" time="0.019">
+    </testcase>
+    <testcase classname="Server Configuration Rate Limiting should not apply rate limiting to non-API routes" name="Server Configuration Rate Limiting should not apply rate limiting to non-API routes" time="0.004">
+    </testcase>
+    <testcase classname="Server Configuration Security Headers should include security headers from helmet" name="Server Configuration Security Headers should include security headers from helmet" time="0.003">
+    </testcase>
+    <testcase classname="Server Configuration Body Parsing should parse JSON bodies" name="Server Configuration Body Parsing should parse JSON bodies" time="0.006">
+    </testcase>
+    <testcase classname="Server Configuration Body Parsing should parse URL-encoded bodies" name="Server Configuration Body Parsing should parse URL-encoded bodies" time="0.004">
+    </testcase>
+    <testcase classname="Server Configuration Error Handling should handle 404 errors" name="Server Configuration Error Handling should handle 404 errors" time="0.006">
+    </testcase>
+    <testcase classname="Server Configuration Error Handling should handle server errors" name="Server Configuration Error Handling should handle server errors" time="0.002">
+    </testcase>
+    <testcase classname="Server Configuration Environment Configuration should use test environment" name="Server Configuration Environment Configuration should use test environment" time="0">
+    </testcase>
+    <testcase classname="Server Configuration Environment Configuration should use test port" name="Server Configuration Environment Configuration should use test port" time="0">
+    </testcase>
+    <testcase classname="Server Configuration Environment Configuration should use test rate limit configuration" name="Server Configuration Environment Configuration should use test rate limit configuration" time="0">
+    </testcase>
+    <testcase classname="Server Configuration Request Logging should include request logging middleware" name="Server Configuration Request Logging should include request logging middleware" time="0.003">
+    </testcase>
+    <testcase classname="Server Configuration API Routes should serve API routes" name="Server Configuration API Routes should serve API routes" time="0.003">
+    </testcase>
+    <testcase classname="Server Configuration Process Signal Handlers should have process signal handlers configured" name="Server Configuration Process Signal Handlers should have process signal handlers configured" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="MinIO Service Integration" errors="0" failures="0" skipped="0" timestamp="2025-09-21T17:49:55" time="0.066" tests="13">
+    <testcase classname="MinIO Service Integration should have all required functions" name="MinIO Service Integration should have all required functions" time="0.004">
+    </testcase>
+    <testcase classname="MinIO Service Integration should initialize MinIO without errors" name="MinIO Service Integration should initialize MinIO without errors" time="0.001">
+    </testcase>
+    <testcase classname="MinIO Service Integration should handle file upload operations" name="MinIO Service Integration should handle file upload operations" time="0.002">
+    </testcase>
+    <testcase classname="MinIO Service Integration should handle file download operations" name="MinIO Service Integration should handle file download operations" time="0">
+    </testcase>
+    <testcase classname="MinIO Service Integration should handle presigned URL generation" name="MinIO Service Integration should handle presigned URL generation" time="0">
+    </testcase>
+    <testcase classname="MinIO Service Integration should handle file deletion" name="MinIO Service Integration should handle file deletion" time="0.001">
+    </testcase>
+    <testcase classname="MinIO Service Integration should handle file metadata retrieval" name="MinIO Service Integration should handle file metadata retrieval" time="0">
+    </testcase>
+    <testcase classname="MinIO Service Integration should handle file listing" name="MinIO Service Integration should handle file listing" time="0.001">
+    </testcase>
+    <testcase classname="MinIO Service Integration should handle file copying" name="MinIO Service Integration should handle file copying" time="0">
+    </testcase>
+    <testcase classname="MinIO Service Integration should close MinIO connection" name="MinIO Service Integration should close MinIO connection" time="0">
+    </testcase>
+    <testcase classname="MinIO Service Integration should handle file upload with metadata" name="MinIO Service Integration should handle file upload with metadata" time="0">
+    </testcase>
+    <testcase classname="MinIO Service Integration should handle presigned URL with custom expiry" name="MinIO Service Integration should handle presigned URL with custom expiry" time="0">
+    </testcase>
+    <testcase classname="MinIO Service Integration should handle empty file lists" name="MinIO Service Integration should handle empty file lists" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="MinIO Service Tests" errors="0" failures="0" skipped="0" timestamp="2025-09-21T17:49:55" time="0.055" tests="1">
+    <testcase classname="MinIO Service Tests should pass a basic test" name="MinIO Service Tests should pass a basic test" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="RabbitMQ Service Integration Tests" errors="0" failures="0" skipped="0" timestamp="2025-09-21T17:49:55" time="0.081" tests="10">
+    <testcase classname="RabbitMQ Service Integration Tests Connection Tests should initialize RabbitMQ connection successfully" name="RabbitMQ Service Integration Tests Connection Tests should initialize RabbitMQ connection successfully" time="0.002">
+    </testcase>
+    <testcase classname="RabbitMQ Service Integration Tests Connection Tests should get RabbitMQ connection instance" name="RabbitMQ Service Integration Tests Connection Tests should get RabbitMQ connection instance" time="0">
+    </testcase>
+    <testcase classname="RabbitMQ Service Integration Tests Queue Operations should handle queue initialization during startup" name="RabbitMQ Service Integration Tests Queue Operations should handle queue initialization during startup" time="0">
+    </testcase>
+    <testcase classname="RabbitMQ Service Integration Tests Queue Operations should handle message publishing" name="RabbitMQ Service Integration Tests Queue Operations should handle message publishing" time="0.001">
+    </testcase>
+    <testcase classname="RabbitMQ Service Integration Tests Queue Operations should handle message consumption" name="RabbitMQ Service Integration Tests Queue Operations should handle message consumption" time="0">
+    </testcase>
+    <testcase classname="RabbitMQ Service Integration Tests Queue Operations should handle queue information retrieval" name="RabbitMQ Service Integration Tests Queue Operations should handle queue information retrieval" time="0">
+    </testcase>
+    <testcase classname="RabbitMQ Service Integration Tests Queue Operations should handle queue purging" name="RabbitMQ Service Integration Tests Queue Operations should handle queue purging" time="0">
+    </testcase>
+    <testcase classname="RabbitMQ Service Integration Tests Queue Operations should handle queue deletion" name="RabbitMQ Service Integration Tests Queue Operations should handle queue deletion" time="0">
+    </testcase>
+    <testcase classname="RabbitMQ Service Integration Tests Health Check should handle health check operations" name="RabbitMQ Service Integration Tests Health Check should handle health check operations" time="0">
+    </testcase>
+    <testcase classname="RabbitMQ Service Integration Tests Error Handling should handle connection errors gracefully" name="RabbitMQ Service Integration Tests Error Handling should handle connection errors gracefully" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="Redis Service Integration" errors="0" failures="0" skipped="0" timestamp="2025-09-21T17:49:55" time="0.062" tests="9">
+    <testcase classname="Redis Service Integration should have all required functions" name="Redis Service Integration should have all required functions" time="0.003">
+    </testcase>
+    <testcase classname="Redis Service Integration should initialize redis without errors" name="Redis Service Integration should initialize redis without errors" time="0.001">
+    </testcase>
+    <testcase classname="Redis Service Integration should handle basic key-value operations" name="Redis Service Integration should handle basic key-value operations" time="0">
+    </testcase>
+    <testcase classname="Redis Service Integration should handle hash operations" name="Redis Service Integration should handle hash operations" time="0">
+    </testcase>
+    <testcase classname="Redis Service Integration should handle TTL operations" name="Redis Service Integration should handle TTL operations" time="0">
+    </testcase>
+    <testcase classname="Redis Service Integration should close redis connection" name="Redis Service Integration should close redis connection" time="0">
+    </testcase>
+    <testcase classname="Redis Service Integration should handle set with TTL" name="Redis Service Integration should handle set with TTL" time="0">
+    </testcase>
+    <testcase classname="Redis Service Integration should handle object serialization" name="Redis Service Integration should handle object serialization" time="0.001">
+    </testcase>
+    <testcase classname="Redis Service Integration should handle non-existent keys" name="Redis Service Integration should handle non-existent keys" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="Redis Service Integration" errors="0" failures="0" skipped="0" timestamp="2025-09-21T17:49:55" time="0.068" tests="8">
+    <testcase classname="Redis Service Integration Service Functions should have all required functions" name="Redis Service Integration Service Functions should have all required functions" time="0.007">
+    </testcase>
+    <testcase classname="Redis Service Integration Service Functions should initialize Redis without errors" name="Redis Service Integration Service Functions should initialize Redis without errors" time="0">
+    </testcase>
+    <testcase classname="Redis Service Integration Service Functions should handle basic operations" name="Redis Service Integration Service Functions should handle basic operations" time="0">
+    </testcase>
+    <testcase classname="Redis Service Integration Service Functions should handle TTL operations" name="Redis Service Integration Service Functions should handle TTL operations" time="0.001">
+    </testcase>
+    <testcase classname="Redis Service Integration Service Functions should handle hash operations" name="Redis Service Integration Service Functions should handle hash operations" time="0">
+    </testcase>
+    <testcase classname="Redis Service Integration Service Functions should close connection" name="Redis Service Integration Service Functions should close connection" time="0">
+    </testcase>
+    <testcase classname="Redis Service Integration Integration Scenarios should handle complete caching workflow" name="Redis Service Integration Integration Scenarios should handle complete caching workflow" time="0.001">
+    </testcase>
+    <testcase classname="Redis Service Integration Integration Scenarios should handle session management with hash operations" name="Redis Service Integration Integration Scenarios should handle session management with hash operations" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="Service Initializer" errors="0" failures="0" skipped="0" timestamp="2025-09-21T17:49:56" time="0.089" tests="9">
+    <testcase classname="Service Initializer initializeServices should initialize all services successfully" name="Service Initializer initializeServices should initialize all services successfully" time="0.001">
+    </testcase>
+    <testcase classname="Service Initializer initializeServices should handle database initialization failure" name="Service Initializer initializeServices should handle database initialization failure" time="0.008">
+    </testcase>
+    <testcase classname="Service Initializer initializeServices should handle Redis initialization failure" name="Service Initializer initializeServices should handle Redis initialization failure" time="0.004">
+    </testcase>
+    <testcase classname="Service Initializer initializeServices should handle MinIO initialization failure" name="Service Initializer initializeServices should handle MinIO initialization failure" time="0.001">
+    </testcase>
+    <testcase classname="Service Initializer initializeServices should handle RabbitMQ initialization failure" name="Service Initializer initializeServices should handle RabbitMQ initialization failure" time="0.001">
+    </testcase>
+    <testcase classname="Service Initializer shutdownServices should shutdown services gracefully" name="Service Initializer shutdownServices should shutdown services gracefully" time="0">
+    </testcase>
+    <testcase classname="Service Initializer shutdownServices should handle shutdown errors gracefully" name="Service Initializer shutdownServices should handle shutdown errors gracefully" time="0">
+    </testcase>
+    <testcase classname="Service Initializer Signal Handlers should register SIGTERM handler" name="Service Initializer Signal Handlers should register SIGTERM handler" time="0.003">
+    </testcase>
+    <testcase classname="Service Initializer Signal Handlers should register SIGINT handler" name="Service Initializer Signal Handlers should register SIGINT handler" time="0.001">
+    </testcase>
+  </testsuite>
+</testsuites>
